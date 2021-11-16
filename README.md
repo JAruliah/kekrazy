@@ -10,5 +10,6 @@ This project is a typing speed test. Outputs phrases onto the screen with a time
 - Auth0
 - Nodejs
 - Express
+- MongoDB
 - Bootstrap
 - SCSS
