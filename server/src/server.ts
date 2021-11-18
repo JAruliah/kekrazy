@@ -12,14 +12,14 @@ app.use(express.json())
 
 //ROUTES
 // get the scores for the user, if user does not exist add to database
-app.get('/', async(req:any, res:any) => {
+app.get('/:email', async(req:any, res:any) => {
     try{
         // Look for user in the database
-        const sentUser:{}[] = await User.find({email:req.body.email})
+        const sentUser:{}[] = await User.find({email:req.params.email})
         // if the user doesnt not exist save the user to the database
         if (sentUser[0] === undefined){
             const user = new User({
-                email:req.body.email,
+                email:req.params.email,
                 scores:[]
             })
             // save user to database and send the user to client
@@ -28,7 +28,7 @@ app.get('/', async(req:any, res:any) => {
     }
     // if user already exists send the user to the client
     else{
-        res.json(sentUser).send
+        res.send(sentUser)
     }
     // sent 500 status if error
     }catch(err){res.sendStatus(500)}
