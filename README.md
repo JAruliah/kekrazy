@@ -49,6 +49,33 @@ npm run scss
 * To install all dependencies run:
 
 ```
-cd client
 npm install
 ```
+
+* To create production ready build:
+
+```
+npm run build
+```
+
+## Things to do
+
+- [x] ~Initialize project, setup database~
+- [x] ~Build GET API route~
+- [x] ~Build POST API route~
+- [x] ~Install/setup React~
+- [x] ~Setup Auth0 on~
+- [x] ~Login/Logout buttons~
+- [x] ~Get words display on screen~
+- [x] ~Game loop~
+- [x] ~Error checking words and characters~
+- [x] ~Going backwards with backspace~
+- [x] ~Visual display, character cursor~
+- [ ] Post score after game finish
+- [ ] Scoreboard page with all scores
+- [ ] Style UI
+- [ ] Bug testing
+- [ ] Deploy :)
+
+
+
