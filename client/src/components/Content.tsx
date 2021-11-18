@@ -9,7 +9,7 @@ interface ContentProps {
 export const Content: React.FC<ContentProps> = ({words, currentWordIndex, currentCharIndex}) => {
         return (
             <div className="card">
-                <div className="content">
+                <div className="content fs-4">
                     {words.map((word:string, wordIndex:number) => {
                         // splitting all words into spans with 1 char, after the words an empty span
                         return (

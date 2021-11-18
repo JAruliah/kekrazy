@@ -49,7 +49,9 @@ export const Main: React.FC<MainProps> = () => {
             setCurrentWordIndex(0)
             setCurrentCharIndex(0)
             setCurrentChar([])
-
+            setCompletedWords(0)
+            setCorrectChar(0)
+            setIncorrectChar(0)
         }
         // change game status to start
         if (status !== "start" ){
@@ -127,7 +129,7 @@ export const Main: React.FC<MainProps> = () => {
                     {status === "start" ? <Content words={words} currentCharIndex={currentCharIndex} currentWordIndex={currentWordIndex}/>: null}
                     <input className="w-100" value={currentInput} onChange={(e) => {setCurrentInput(e.target.value)}} onKeyDown={(e) => handleKeyDown(e)} disabled={status !== "start"} ref={textInput}></input>
                     <button onClick={start}>Start</button>
-                    <div> Accuracy: {Math.round((correctChar / (correctChar + incorrectChar) * 100))}%</div>
+                    <div>{correctChar === 0 && incorrectChar === 0 ? <h3>Accuracy: 0%</h3>:<h3>Accuracy: {Math.round((correctChar / (correctChar + incorrectChar) * 100))}%</h3>}</div>
                     <div>WPM: {completedWords}</div>
                 </div>
             </main>
