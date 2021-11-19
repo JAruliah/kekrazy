@@ -3,14 +3,16 @@ import randomWords from 'random-words'
 import {Content} from './Content'
 
 interface MainProps {
-    
+    userEmail:any,
+    isAuthenticated:Boolean,
+    setScores:React.Dispatch<React.SetStateAction<undefined>>
 }
 
 // constants for number of generated words and seconds for the game timer
-const NUMB_OF_WORDS = 200
-const SECONDS = 60
+const NUMB_OF_WORDS:number = 200
+const SECONDS:number = 60
 
-export const Main: React.FC<MainProps> = () => {
+export const Main: React.FC<MainProps> = ({userEmail, isAuthenticated,setScores}) => {
     const [words, setWords] = useState<string[]>([])
     const [countDown, setCountDown] = useState<number>(SECONDS)
     const [currentInput, setCurrentInput] = useState<string>("")
@@ -34,7 +36,23 @@ export const Main: React.FC<MainProps> = () => {
         if (status === "start"){
             textInput.current.focus()
         }
-    }, [status])
+        if (status === "finished"){
+            if (isAuthenticated){
+                if (userEmail !== undefined){
+                    fetch(`${process.env.REACT_APP_BASE_URL}`, {
+                        method:'POST',
+                        headers:{
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({email:userEmail, score:completedWords})
+                    })
+                    .then(res => res.json())
+                    .then(data => setScores(data[0].scores))
+                    .catch(err => console.log(err))
+                }
+            }
+        }
+    }, [status,userEmail,completedWords, isAuthenticated, setScores])
 
     // generate random words for the typing content 
     const generateWords = () :any => {

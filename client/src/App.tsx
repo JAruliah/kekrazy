@@ -19,11 +19,10 @@ function App() {
     }
   }, [isAuthenticated, user])
 
-
   return (
     <div className="container">
-      <Header user={user} isAuthenticated={isAuthenticated} scores={scores}/>
-      <Main />
+        <Header user={user} isAuthenticated={isAuthenticated} scores={scores}/>
+        <Main setScores={setScores} isAuthenticated={isAuthenticated} userEmail={user?.email}/>
     </div>
   );
 }

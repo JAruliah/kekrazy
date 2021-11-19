@@ -40,7 +40,6 @@ app.post('/', async(req:any,res:any)=>{
         // update the scores array of the user given the email
         const userUpdate:{}[] = await User.updateOne({email:req.body.email},{$push:{scores:req.body.score}})
         const sentUser:{}[] = await User.find({email:req.body.email})
-
         // send the user object to the client
         res.json(sentUser).send
 
@@ -57,4 +56,3 @@ mongoose.connect(process.env.DB_CONNECTION, () =>{
 
 //Server listening
 app.listen(PORT, ()=>{console.log(`Listening on port ${PORT}`)})
-
