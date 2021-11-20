@@ -1,18 +1,23 @@
 import React, {useState, useEffect, useRef} from 'react'
 import randomWords from 'random-words'
-import {Content} from './Content'
+import {Content} from '../components/Content'
+import {Header} from '../components/Header'
 
 interface MainProps {
     userEmail:any,
     isAuthenticated:Boolean,
-    setScores:React.Dispatch<React.SetStateAction<undefined>>
+    setScores:React.Dispatch<React.SetStateAction<undefined>>,
+    scores:[] | undefined,
+    user:any,
+    accuracy:[] | undefined,
+    setAccuracy:React.Dispatch<React.SetStateAction<undefined>>
 }
 
 // constants for number of generated words and seconds for the game timer
 const NUMB_OF_WORDS:number = 200
-const SECONDS:number = 60
+const SECONDS:number = 1
 
-export const Main: React.FC<MainProps> = ({userEmail, isAuthenticated,setScores}) => {
+export const Main: React.FC<MainProps> = ({userEmail, isAuthenticated,setScores, scores, user, accuracy, setAccuracy}) => {
     const [words, setWords] = useState<string[]>([])
     const [countDown, setCountDown] = useState<number>(SECONDS)
     const [currentInput, setCurrentInput] = useState<string>("")
@@ -24,6 +29,7 @@ export const Main: React.FC<MainProps> = ({userEmail, isAuthenticated,setScores}
     const [currentChar, setCurrentChar] = useState<string[]>([])
     const [status, setStatus] = useState<string>("waiting")
     const [startCountDown, setStartCountDown] = useState<number>(-1)
+    const [accuracyScore, setAccuracyScore] = useState<number>()
     const textInput = useRef<null|any>(null)
 
     // generate random on mount
@@ -39,20 +45,23 @@ export const Main: React.FC<MainProps> = ({userEmail, isAuthenticated,setScores}
         if (status === "finished"){
             if (isAuthenticated){
                 if (userEmail !== undefined){
-                    fetch(`${process.env.REACT_APP_BASE_URL}`, {
+                    fetch(`${process.env.REACT_APP_BASE_URL}scores`, {
                         method:'POST',
                         headers:{
                             'Content-Type': 'application/json'
                         },
-                        body: JSON.stringify({email:userEmail, score:completedWords})
+                        body: JSON.stringify({email:userEmail, score:completedWords, accuracy:accuracyScore})
                     })
                     .then(res => res.json())
-                    .then(data => setScores(data[0].scores))
+                    .then(data => {
+                        setScores(data[0].scores)
+                        setAccuracy(data[0].accuracy)
+                    })
                     .catch(err => console.log(err))
                 }
             }
         }
-    }, [status,userEmail,completedWords, isAuthenticated, setScores])
+    }, [status,userEmail,completedWords, isAuthenticated, setScores, accuracyScore, setAccuracy])
 
     // generate random words for the typing content 
     const generateWords = () :any => {
@@ -63,6 +72,7 @@ export const Main: React.FC<MainProps> = ({userEmail, isAuthenticated,setScores}
     const start = () => {
         // if the game is finished reset all values
         if (status === "finished"){
+            setAccuracyScore(Math.round((correctChar / (correctChar + incorrectChar) * 100)))
             setWords(generateWords())
             setCurrentWordIndex(0)
             setCurrentCharIndex(0)
@@ -70,6 +80,7 @@ export const Main: React.FC<MainProps> = ({userEmail, isAuthenticated,setScores}
             setCompletedWords(0)
             setCorrectChar(0)
             setIncorrectChar(0)
+
         }
         // change game status to start
         if (status !== "start" ){
@@ -149,6 +160,7 @@ export const Main: React.FC<MainProps> = ({userEmail, isAuthenticated,setScores}
 
         return (
             <main>
+                <Header user={user} isAuthenticated={isAuthenticated} scores={scores}/>
                 <div className="section">
                     <div className="timer">
                         {startCountDown !== -1 ? <h3>Starts in: {startCountDown}</h3>: null}

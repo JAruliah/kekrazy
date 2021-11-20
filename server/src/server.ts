@@ -11,15 +11,19 @@ const User = require('./model/User')
 app.use(express.json())
 
 //ROUTES
+
 // get the scores for the user, if user does not exist add to database
-app.get('/:email', async(req:any, res:any) => {
+app.post('/', async(req:any, res:any) => {
     try{
+        console.log(req.body.email)
         // Look for user in the database
-        const sentUser:{}[] = await User.find({email:req.params.email})
+        const sentUser:{}[] = await User.find({email:req.body.email})
         // if the user doesnt not exist save the user to the database
         if (sentUser[0] === undefined){
             const user = new User({
-                email:req.params.email,
+                email:req.body.email,
+                firstName:req.body.firstName,
+                lastName:req.body.lastName,
                 scores:[]
             })
             // save user to database and send the user to client
@@ -35,10 +39,11 @@ app.get('/:email', async(req:any, res:any) => {
 })
 
 // Posting scores to the db
-app.post('/', async(req:any,res:any)=>{
+app.post('/scores', async(req:any,res:any)=>{
     try{
         // update the scores array of the user given the email
-        const userUpdate:{}[] = await User.updateOne({email:req.body.email},{$push:{scores:req.body.score}})
+        const updateScore:{}[] = await User.updateOne({email:req.body.email},{$push:{scores:req.body.score}})
+        const updateAccuracy:{}[] = await User.updateOne({email:req.body.email},{$push:{accuracy:req.body.accuracy}})
         const sentUser:{}[] = await User.find({email:req.body.email})
         // send the user object to the client
         res.json(sentUser).send
@@ -46,6 +51,14 @@ app.post('/', async(req:any,res:any)=>{
         // send 500 status if error
     }catch(err){res.sendStatus(500)}
 
+})
+
+// Get the users, send the client down all users
+app.get('/scores', async(req:any,res:any) => {
+    try {
+        const users = await User.find()
+        res.send(users)
+    } catch (err){console.log(err)}
 })
 
 
