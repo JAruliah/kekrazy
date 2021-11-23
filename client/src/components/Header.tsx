@@ -2,6 +2,7 @@ import React, {useState,useEffect} from 'react'
 import { NavBar } from './NavBar'
 
 
+
 interface HeaderProps {
     isAuthenticated: Boolean,
     user: any,
@@ -19,11 +20,8 @@ export const Header: React.FC<HeaderProps> = ({user,isAuthenticated, scores}) =>
         }, [scores])
         return (
             // display user's name and average words per minute
-            <header>
-                {isAuthenticated ? <h1>Hello, {user.name}</h1>: <h1>Welcome to Typing Test</h1>}
-                {/* // round average to 2 decimal places */}
-                {average !== undefined ? <h3>Average WPM: {(Math.round(average * 100) / 100)}</h3>: null}
-                <NavBar isAuthenticated={isAuthenticated}/>
+            <header className="text-center">
+                <NavBar isAuthenticated={isAuthenticated} user={user} average={average}/>
             </header>
         );
 }

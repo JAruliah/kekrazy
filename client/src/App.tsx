@@ -13,19 +13,24 @@ function App() {
   // get the scores of the user when logged in
   useEffect(() => {
     if (isAuthenticated){
-      fetch(`${process.env.REACT_APP_BASE_URL}`,{
-        method:"POST",
-        headers:{
-          'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({email:user?.email, firstName:user?.given_name, lastName:user?.family_name})
-      })
-      .then(res => res.json())
-      .then(data => {
-        setScores(data[0].scores)
-        setAccuracy(data[0].accuracy)
-      })
-      .catch(err => console.log(err))
+      if (user !== undefined){
+
+        fetch(`${process.env.REACT_APP_BASE_URL}`,{
+          method:"POST",
+          headers:{
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({email:user?.email, userName:user['https://myapp.example.com/username']})
+        })
+        .then(res => res.json())
+        .then(data => {
+          setScores(data[0].scores)
+          setAccuracy(data[0].accuracy)
+        })
+        .catch(err => console.log(err))
+
+      }
+
     }
   }, [isAuthenticated, user])
 

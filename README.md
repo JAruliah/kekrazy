@@ -12,7 +12,6 @@ This project is a typing speed test. Outputs phrases onto the screen with a time
 - Express
 - MongoDB
 - Bootstrap
-- SCSS
 
 ## Getting Started
 

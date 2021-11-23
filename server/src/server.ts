@@ -15,15 +15,13 @@ app.use(express.json())
 // get the scores for the user, if user does not exist add to database
 app.post('/', async(req:any, res:any) => {
     try{
-        console.log(req.body.email)
         // Look for user in the database
         const sentUser:{}[] = await User.find({email:req.body.email})
         // if the user doesnt not exist save the user to the database
         if (sentUser[0] === undefined){
             const user = new User({
                 email:req.body.email,
-                firstName:req.body.firstName,
-                lastName:req.body.lastName,
+                userName:req.body.userName,
                 scores:[]
             })
             // save user to database and send the user to client

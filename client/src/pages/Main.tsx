@@ -2,6 +2,7 @@ import React, {useState, useEffect, useRef} from 'react'
 import randomWords from 'random-words'
 import {Content} from '../components/Content'
 import {Header} from '../components/Header'
+import { MDBBtn } from 'mdb-react-ui-kit'
 
 interface MainProps {
     userEmail:any,
@@ -14,8 +15,8 @@ interface MainProps {
 }
 
 // constants for number of generated words and seconds for the game timer
-const NUMB_OF_WORDS:number = 200
-const SECONDS:number = 1
+const NUMB_OF_WORDS:number = 150
+const SECONDS:number = 60
 
 export const Main: React.FC<MainProps> = ({userEmail, isAuthenticated,setScores, scores, user, accuracy, setAccuracy}) => {
     const [words, setWords] = useState<string[]>([])
@@ -29,7 +30,7 @@ export const Main: React.FC<MainProps> = ({userEmail, isAuthenticated,setScores,
     const [currentChar, setCurrentChar] = useState<string[]>([])
     const [status, setStatus] = useState<string>("waiting")
     const [startCountDown, setStartCountDown] = useState<number>(-1)
-    const [accuracyScore, setAccuracyScore] = useState<number>()
+    const [accuracyScore, setAccuracyScore] = useState<number>(0)
     const textInput = useRef<null|any>(null)
 
     // generate random on mount
@@ -39,29 +40,42 @@ export const Main: React.FC<MainProps> = ({userEmail, isAuthenticated,setScores,
 
     // when the game status changes check if the game is started
     useEffect(() => {
+        let isMounted = true; 
+
         if (status === "start"){
             textInput.current.focus()
         }
         if (status === "finished"){
+            setAccuracyScore((correctChar / (correctChar + incorrectChar) * 100))
             if (isAuthenticated){
                 if (userEmail !== undefined){
-                    fetch(`${process.env.REACT_APP_BASE_URL}scores`, {
-                        method:'POST',
-                        headers:{
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({email:userEmail, score:completedWords, accuracy:accuracyScore})
-                    })
-                    .then(res => res.json())
-                    .then(data => {
-                        setScores(data[0].scores)
-                        setAccuracy(data[0].accuracy)
-                    })
-                    .catch(err => console.log(err))
+                    if (accuracyScore > 0){
+                        if (isMounted){
+                            fetch(`${process.env.REACT_APP_BASE_URL}scores`, {
+                                method:'POST',
+                                headers:{
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({email:userEmail,score:completedWords, accuracy:accuracyScore})
+                            })
+                            .then(res => res.json())
+                            .then(data => {
+                                setScores(data[0].scores)
+                                setAccuracy(data[0].accuracy)
+                                setStatus("post-game")
+        
+                            })
+                            .catch(err => console.log(err))
+    
+                        }
+                    }
+
                 }
             }
         }
-    }, [status,userEmail,completedWords, isAuthenticated, setScores, accuracyScore, setAccuracy])
+        return () => { isMounted = false };
+
+    }, [status,userEmail,completedWords, isAuthenticated, setScores, accuracyScore, setAccuracy, incorrectChar, correctChar])
 
     // generate random words for the typing content 
     const generateWords = () :any => {
@@ -71,8 +85,7 @@ export const Main: React.FC<MainProps> = ({userEmail, isAuthenticated,setScores,
     // start button, starts interval and sets coundown state
     const start = () => {
         // if the game is finished reset all values
-        if (status === "finished"){
-            setAccuracyScore(Math.round((correctChar / (correctChar + incorrectChar) * 100)))
+        if (status === "finished" || status === "post-game"){
             setWords(generateWords())
             setCurrentWordIndex(0)
             setCurrentCharIndex(0)
@@ -162,15 +175,26 @@ export const Main: React.FC<MainProps> = ({userEmail, isAuthenticated,setScores,
             <main>
                 <Header user={user} isAuthenticated={isAuthenticated} scores={scores}/>
                 <div className="section">
-                    <div className="timer">
-                        {startCountDown !== -1 ? <h3>Starts in: {startCountDown}</h3>: null}
-                        <h3>{countDown}</h3>
+                    {status!== "waiting" ? 
+                        <div>
+                            <div className="text-center mt-3">{correctChar === 0 && incorrectChar === 0 ? <h3>Accuracy: 0%</h3>:<h3>Accuracy: {Math.round((correctChar / (correctChar + incorrectChar) * 100))}%</h3>}</div>
+                            <div className="text-center"><h4>WPM: {completedWords}</h4></div>
+                        </div>
+                    :null }
+                    <div className="timer text-center">
+                        {startCountDown !== -1 ? <h3 className="text-danger" >Starts in: {startCountDown}</h3>: null}
+                        {status === "start" ? <h3>{countDown}</h3>: null}
                     </div>
-                    {status === "start" || status === "start-timer" ? <Content words={words} currentCharIndex={currentCharIndex} currentWordIndex={currentWordIndex}/>: null}
-                    <input className="w-100" value={currentInput} onChange={(e) => {setCurrentInput(e.target.value)}} onKeyDown={(e) => handleKeyDown(e)} disabled={status !== "start"} ref={textInput}></input>
-                    <button onClick={start}>Start</button>
-                    <div>{correctChar === 0 && incorrectChar === 0 ? <h3>Accuracy: 0%</h3>:<h3>Accuracy: {Math.round((correctChar / (correctChar + incorrectChar) * 100))}%</h3>}</div>
-                    <div>WPM: {completedWords}</div>
+                    {status === "start" || status === "start-timer" ? <Content words={words} style={""} currentCharIndex={currentCharIndex} currentWordIndex={currentWordIndex}/>
+                    : 
+                    status === "post-game"? <Content words={words} currentCharIndex={currentCharIndex} style={"#a3a3a3"} currentWordIndex={currentWordIndex}/>
+                    : null}
+
+                    {status === "waiting" ? null :<input className="w-100" value={currentInput} onChange={(e) => {setCurrentInput(e.target.value)}} onKeyDown={(e) => handleKeyDown(e)} disabled={status !== "start"} ref={textInput}></input>}
+                    <div className="text-center mt-5">
+                        {status === "waiting" ?<h3>Click the button to start a typing test</h3> : null}
+                        {status === "start" || status === "start-timer" ? null : <MDBBtn onClick={start}>Start</MDBBtn>}
+                    </div>
                 </div>
             </main>
         );

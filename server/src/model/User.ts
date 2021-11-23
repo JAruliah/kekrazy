@@ -2,8 +2,7 @@ import mongoose from 'mongoose'
 
 const UsersSchema = new mongoose.Schema({
     email:String,
-    firstName:String,
-    lastName:String,
+    userName:String,
     scores:[],
     accuracy:[]
 
