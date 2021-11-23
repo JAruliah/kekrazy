@@ -185,9 +185,9 @@ export const Main: React.FC<MainProps> = ({userEmail, isAuthenticated,setScores,
                         {startCountDown !== -1 ? <h3 className="text-danger" >Starts in: {startCountDown}</h3>: null}
                         {status === "start" ? <h3>{countDown}</h3>: null}
                     </div>
-                    {status === "start" || status === "start-timer" ? <Content words={words} style={""} currentCharIndex={currentCharIndex} currentWordIndex={currentWordIndex}/>
+                    {status === "start" || status === "start-timer" ? <Content words={words} contentStyle={""} currentCharIndex={currentCharIndex} currentWordIndex={currentWordIndex}/>
                     : 
-                    status === "post-game"? <Content words={words} currentCharIndex={currentCharIndex} style={"#a3a3a3"} currentWordIndex={currentWordIndex}/>
+                    status === "post-game"? <Content words={words} currentCharIndex={currentCharIndex} contentStyle={"#a3a3a3"} currentWordIndex={currentWordIndex}/>
                     : null}
 
                     {status === "waiting" ? null :<input className="w-100" value={currentInput} onChange={(e) => {setCurrentInput(e.target.value)}} onKeyDown={(e) => handleKeyDown(e)} disabled={status !== "start"} ref={textInput}></input>}
@@ -195,7 +195,7 @@ export const Main: React.FC<MainProps> = ({userEmail, isAuthenticated,setScores,
                         {status === "waiting" ?<h3>Click the button to start a typing test</h3> : null}
                         {status === "start" || status === "start-timer" ? null : <MDBBtn onClick={start}>Start</MDBBtn>}
                     </div>
-                </div>
+                </div>   
             </main>
-        );
+        )
 }

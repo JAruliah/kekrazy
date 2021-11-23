@@ -65,7 +65,7 @@ export const ScoreBoard: React.FC<ScoreBoardProps> = ({user, isAuthenticated, sc
 
 
     return (
-        <div>
+        <main>
             <Header user={user} isAuthenticated={isAuthenticated} scores={scores}/>
             <div>
                 <h2 className="text-center mt-5 mb-3">Scoreboard</h2>
@@ -92,6 +92,6 @@ export const ScoreBoard: React.FC<ScoreBoardProps> = ({user, isAuthenticated, sc
                     })
                 }
             </div>
-        </div>
-        );
+        </main>
+    )
 }

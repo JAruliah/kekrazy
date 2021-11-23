@@ -13,8 +13,6 @@ import {
     MDBCollapse
   } from 'mdb-react-ui-kit';
 
-
-
 interface NavBarProps {
     isAuthenticated: Boolean,
     user:any,
@@ -73,5 +71,5 @@ export const NavBar: React.FC<NavBarProps> = ({isAuthenticated, user, average}) 
             </MDBContainer>
           </MDBNavbar>
 
-        );
+        )
 }
