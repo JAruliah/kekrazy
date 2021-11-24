@@ -7,9 +7,12 @@ interface NotFoundProps {
 
 export const NotFound: React.FC<NotFoundProps> = () => {
         return (
-            <div>
-                <h1>PAGE NOT FOUND</h1>
-                <Link to="/">GO BACK</Link>
-            </div>
+            <main>
+                <div className="m-auto" style={{width:"fit-content"}}>
+                    <img src="img/page-not-found.png" alt="not found" width="150"/>
+                    <h3>Page not found</h3>
+                    <Link to="/">Take me back please</Link>
+                </div>
+            </main>
         );
 }

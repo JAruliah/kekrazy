@@ -8,7 +8,6 @@ import {BrowserRouter as Router, Route, Routes} from 'react-router-dom'
 function App() {
   const {user, isAuthenticated} = useAuth0()
   const [scores, setScores] = useState()
-  const [accuracy, setAccuracy] = useState()
 
   // get the scores of the user when logged in
   useEffect(() => {
@@ -25,7 +24,6 @@ function App() {
         .then(res => res.json())
         .then(data => {
           setScores(data[0].scores)
-          setAccuracy(data[0].accuracy)
         })
         .catch(err => console.log(err))
 
@@ -38,7 +36,7 @@ function App() {
     <div className="container">
       <Router>
         <Routes>
-          <Route path= '/' element={<Main accuracy={accuracy} setAccuracy={setAccuracy} scores={scores} user={user} setScores={setScores} isAuthenticated={isAuthenticated} userEmail={user?.email}/>}/> 
+          <Route path= '/' element={<Main scores={scores} user={user} setScores={setScores} isAuthenticated={isAuthenticated} userEmail={user?.email}/>}/> 
           <Route path='/scoreboard' element={<ScoreBoard user={user} isAuthenticated={isAuthenticated} scores={scores}/>} />
           <Route path="/*" element={<NotFound/>} />
         </Routes>

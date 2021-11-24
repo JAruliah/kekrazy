@@ -9,16 +9,14 @@ interface MainProps {
     isAuthenticated:Boolean,
     setScores:React.Dispatch<React.SetStateAction<undefined>>,
     scores:[] | undefined,
-    user:any,
-    accuracy:[] | undefined,
-    setAccuracy:React.Dispatch<React.SetStateAction<undefined>>
+    user:any
 }
 
 // constants for number of generated words and seconds for the game timer
 const NUMB_OF_WORDS:number = 150
 const SECONDS:number = 60
 
-export const Main: React.FC<MainProps> = ({userEmail, isAuthenticated,setScores, scores, user, accuracy, setAccuracy}) => {
+export const Main: React.FC<MainProps> = ({userEmail, isAuthenticated,setScores, scores, user}) => {
     const [words, setWords] = useState<string[]>([])
     const [countDown, setCountDown] = useState<number>(SECONDS)
     const [currentInput, setCurrentInput] = useState<string>("")
@@ -61,8 +59,6 @@ export const Main: React.FC<MainProps> = ({userEmail, isAuthenticated,setScores,
                             .then(res => res.json())
                             .then(data => {
                                 setScores(data[0].scores)
-                                setAccuracy(data[0].accuracy)
-                                setStatus("post-game")
         
                             })
                             .catch(err => console.log(err))
@@ -75,7 +71,7 @@ export const Main: React.FC<MainProps> = ({userEmail, isAuthenticated,setScores,
         }
         return () => { isMounted = false };
 
-    }, [status,userEmail,completedWords, isAuthenticated, setScores, accuracyScore, setAccuracy, incorrectChar, correctChar])
+    }, [status,userEmail,completedWords, isAuthenticated, setScores, accuracyScore, incorrectChar, correctChar])
 
     // generate random words for the typing content 
     const generateWords = () :any => {
@@ -114,6 +110,7 @@ export const Main: React.FC<MainProps> = ({userEmail, isAuthenticated,setScores,
                                     setStatus("finished")
                                     clearInterval(interval)
                                     setCurrentInput("")
+                                    setStatus("post-game")
                                     return SECONDS
                                 }
                                 // if countdown is not 0 continue reducing the countdown
@@ -138,7 +135,8 @@ export const Main: React.FC<MainProps> = ({userEmail, isAuthenticated,setScores,
         // if the key is a backspace pop off the current char array and decrease currentCharIndex by 1
         if (key === "Backspace"){
             currentChar.pop()
-            if (currentChar[currentChar.length -1] === words[currentWordIndex][currentCharIndex - 2]){
+            // check if previous words match, if they do then backspace
+            if (currentChar[currentChar.length -1] === words[currentWordIndex][currentCharIndex - 2] && currentChar[currentChar.length -2] === words[currentWordIndex][currentCharIndex - 3]){
                 if (currentCharIndex <= 0){
                 }
                 else{
@@ -148,7 +146,7 @@ export const Main: React.FC<MainProps> = ({userEmail, isAuthenticated,setScores,
             return
         }
         // if the key character is equal to the currentCharIndex character and the previous char in the input is equal to the previous char of the word
-        if (key === words[currentWordIndex][currentCharIndex] && currentChar[currentChar.length -2] === words[currentWordIndex][currentCharIndex-1]){
+        if (key === words[currentWordIndex][currentCharIndex] && currentChar[currentChar.length -2] === words[currentWordIndex][currentCharIndex-1] && currentChar[currentChar.length -3] === words[currentWordIndex][currentCharIndex-2]){
             setCorrectChar(correctChar+1)
             if (key === " "){
                 // if the key down if a space check if word matches, move to next word if it does
