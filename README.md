@@ -72,8 +72,8 @@ npm run build
 - [x] ~Visual display, character cursor~
 - [x] ~Post score after game finish~
 - [x] Scoreboard page with all scores
-- [ ] Style UI
-- [ ] Bug testing
+- [x] Style UI
+- [x] Bug testing
 - [ ] Deploy :)
 
 

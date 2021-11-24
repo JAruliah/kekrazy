@@ -5,10 +5,10 @@ import {Header} from '../components/Header'
 import { MDBBtn } from 'mdb-react-ui-kit'
 
 interface MainProps {
-    userEmail:any,
+    userEmail:string|undefined,
     isAuthenticated:Boolean,
-    setScores:React.Dispatch<React.SetStateAction<undefined>>,
-    scores:[] | undefined,
+    setScores:React.Dispatch<React.SetStateAction<[]>>,
+    scores:[],
     user:any
 }
 
@@ -74,12 +74,12 @@ export const Main: React.FC<MainProps> = ({userEmail, isAuthenticated,setScores,
     }, [status,userEmail,completedWords, isAuthenticated, setScores, accuracyScore, incorrectChar, correctChar])
 
     // generate random words for the typing content 
-    const generateWords = () :any => {
+    const generateWords = () :string[] => {
         return new Array(NUMB_OF_WORDS).fill(null).map(() => randomWords()+" ")
     }
 
     // start button, starts interval and sets coundown state
-    const start = () => {
+    const start = ():number|void => {
         // if the game is finished reset all values
         if (status === "finished" || status === "post-game"){
             setWords(generateWords())
@@ -126,7 +126,7 @@ export const Main: React.FC<MainProps> = ({userEmail, isAuthenticated,setScores,
     }
 
     // on space keydown check if the word matches the current word, if it does move to next word and clear input
-    const handleKeyDown = ({key} :React.KeyboardEvent<HTMLInputElement> | any) => {
+    const handleKeyDown = ({key} :React.KeyboardEvent<HTMLInputElement>) => {
         // if the key is not a backspace append the key to the current char array
         if (key !== "Backspace"){
             currentChar.push(key)
@@ -157,7 +157,7 @@ export const Main: React.FC<MainProps> = ({userEmail, isAuthenticated,setScores,
                     setCurrentChar([])
                     setCompletedWords(completedWords + 1)
                 }
-                }
+            }
                 // if key is not a space, move the index up by one 
                 else{
                     setCurrentCharIndex(currentCharIndex + 1)
@@ -173,10 +173,10 @@ export const Main: React.FC<MainProps> = ({userEmail, isAuthenticated,setScores,
             <main>
                 <Header user={user} isAuthenticated={isAuthenticated} scores={scores}/>
                 <div className="section">
-                    {status!== "waiting" ? 
-                        <div>
-                            <div className="text-center mt-3">{correctChar === 0 && incorrectChar === 0 ? <h3>Accuracy: 0%</h3>:<h3>Accuracy: {Math.round((correctChar / (correctChar + incorrectChar) * 100))}%</h3>}</div>
-                            <div className="text-center"><h4>WPM: {completedWords}</h4></div>
+                    {status === "start" || status === "post-game" ? 
+                        <div className="d-flex justify-content-center mt-3">
+                            <div className="text-center mx-3">{correctChar === 0 && incorrectChar === 0 ? <h3>Accuracy: 0%</h3>:<h3>Accuracy: {Math.round((correctChar / (correctChar + incorrectChar) * 100))}%</h3>}</div>
+                            <div className="text-center mx-3"><h3>WPM: {completedWords}</h3></div>
                         </div>
                     :null }
                     <div className="timer text-center">

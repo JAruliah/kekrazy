@@ -42,12 +42,13 @@ export const ScoreBoard: React.FC<ScoreBoardProps> = ({user, isAuthenticated, sc
                     accuracyAverage = accuracySum / user.accuracy.length
                     return userScores.push({userName:user.userName, average:average, accuracy:accuracyAverage, games:user.scores.length})  
                 })
+
                 userScores.sort((a, b) => { 
                     return b.average -  a.average;
-                })// end of function
+                })
 
                 setScoreBoard(userScores)
-            }
+            } //End of function
 
                 if (isMounted){
                     fetch(`${process.env.REACT_APP_BASE_URL}scores`)

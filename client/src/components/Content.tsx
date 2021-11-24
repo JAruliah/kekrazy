@@ -14,7 +14,7 @@ export const Content: React.FC<ContentProps> = ({words, currentWordIndex, curren
                     {words.map((word:string, wordIndex:number) => {
                         // splitting all words into spans with 1 char, after the words an empty span
                         return (
-                            <span key={wordIndex}>
+                            <span key={wordIndex} style={{letterSpacing:".4px"}}>
                                 <span>
                                     {word.split("").map((char, index) => {
                                         if (wordIndex === currentWordIndex && index === currentCharIndex){
