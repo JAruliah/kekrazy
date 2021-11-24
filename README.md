@@ -71,9 +71,9 @@ npm run build
 - [x] ~Going backwards with backspace~
 - [x] ~Visual display, character cursor~
 - [x] ~Post score after game finish~
-- [x] Scoreboard page with all scores
-- [x] Style UI
-- [x] Bug testing
+- [x] ~Scoreboard page with all scores~
+- [x] ~Style UI~
+- [x] ~Bug testing~
 - [ ] Deploy :)
 
 
