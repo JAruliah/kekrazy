@@ -59,6 +59,7 @@ export const Main: React.FC<MainProps> = ({userEmail, isAuthenticated,setScores,
                             .then(res => res.json())
                             .then(data => {
                                 setScores(data[0].scores)
+                                setStatus("post-game")
         
                             })
                             .catch(err => console.log(err))
@@ -110,7 +111,6 @@ export const Main: React.FC<MainProps> = ({userEmail, isAuthenticated,setScores,
                                     setStatus("finished")
                                     clearInterval(interval)
                                     setCurrentInput("")
-                                    setStatus("post-game")
                                     return SECONDS
                                 }
                                 // if countdown is not 0 continue reducing the countdown
