@@ -48,8 +48,11 @@
     ]
   },
   "devDependencies": {
+    "@fullhuman/postcss-purgecss": "^4.0.3",
     "@types/random-words": "^1.1.2",
     "envify": "^4.1.0",
+    "glob-all": "^3.2.1",
+    "purgecss-webpack-plugin": "^4.0.3",
     "terser": "^5.10.0",
     "terser-brunch": "^4.1.0",
     "uglifyify": "^5.0.2"

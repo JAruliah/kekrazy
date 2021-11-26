@@ -87,7 +87,7 @@ export const Main: React.FC<MainProps> = ({userEmail, isAuthenticated,setScores,
 
             let newWords:string[] = []
             words.forEach((word:string, index:number) => {
-                newWords[index] = word + " "
+                newWords[index] = word.replace(/[\u2018\u2019]/g, "'").replace(/\u2013|\u2014/g, "-") + " "
             })
             setWords(newWords)
         })

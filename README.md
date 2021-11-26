@@ -71,7 +71,7 @@ npm run build
 
 ## Future Features
 
-- [ ] Optimizations 
+- [x] ~Optimizations~ 
 - [ ] Implement web sockets
 - [ ] Enable races with users
 - [ ] User profiles
