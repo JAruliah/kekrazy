@@ -1,5 +1,6 @@
 # Typing Test
-![kekrazy](https://user-images.githubusercontent.com/71105258/143619889-89d85e71-fa0d-439d-9975-1f8956292c51.gif)
+
+![kekrazy](https://user-images.githubusercontent.com/71105258/143620299-97543d92-0efc-4676-9524-8e79118c7a1b.gif)
 
 
 ## Description
