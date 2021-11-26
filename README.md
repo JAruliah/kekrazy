@@ -38,13 +38,6 @@ npm run build
     REACT_APP_AUTH0_DOMAIN =  "your auth0 domain here"
     REACT_APP_AUTH0_CLIENT_ID = "your auth0 client id here"
 
-* SCSS files need to be compiled, you can run:
-
-```
-cd /client
-npm run scss
-```
-
 * To install all dependencies run:
 
 ```
@@ -74,7 +67,15 @@ npm run build
 - [x] ~Scoreboard page with all scores~
 - [x] ~Style UI~
 - [x] ~Bug testing~
-- [ ] Deploy :)
+- [x] ~Deploy :)~
+
+## Future Features
+
+- [ ] Optimizations 
+- [ ] Implement web sockets
+- [ ] Enable races with users
+- [ ] User profiles
+
 
 
 
