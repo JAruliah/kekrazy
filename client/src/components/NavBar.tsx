@@ -24,7 +24,7 @@ export const NavBar: React.FC<NavBarProps> = ({isAuthenticated, user, average}) 
         return (
             <MDBNavbar expand='lg' light style={{ backgroundColor: '#e3f2fd' }}>
             <MDBContainer fluid>
-              <MDBNavbarBrand href='/'><img src="/img/typing.png" width="50" alt="typing logo"/>KeKrazy</MDBNavbarBrand>
+              <MDBNavbarBrand href='/'><img src="/img/typing.png" width="50" height="50" alt="typing logo"/>KeKrazy</MDBNavbarBrand>
               <MDBNavbarToggler
                 type='button'
                 data-target='#navbarColor02'
