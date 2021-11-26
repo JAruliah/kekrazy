@@ -70,6 +70,9 @@ export const Main: React.FC<MainProps> = ({userEmail, isAuthenticated,setScores,
                     }
                 }
             }
+            else{
+                setStatus("post-game")
+            }
         }
         return () => { isMounted = false };
     }, [status,userEmail,completedWords, isAuthenticated, setScores, accuracyScore, incorrectChar, correctChar, wpm])
@@ -202,14 +205,11 @@ export const Main: React.FC<MainProps> = ({userEmail, isAuthenticated,setScores,
         }else if (key !== words[currentWordIndex][currentCharIndex]){ 
             setIncorrectChar(incorrectChar+1)
         }
-
-
     }
-
         return (
             <main>
                 <Header user={user} isAuthenticated={isAuthenticated} scores={scores}/>
-                <div className="section">
+                <div className="section mt-4">
                     {status === "start" || status === "post-game" ? 
                         <div className="d-flex justify-content-center mt-3">
                             <div className="text-center mx-3">{correctChar === 0 && incorrectChar === 0 ? <h3>Accuracy: 0%</h3>:<h3>Accuracy: {Math.round((correctChar / (correctChar + incorrectChar) * 100))}%</h3>}</div>
@@ -218,14 +218,18 @@ export const Main: React.FC<MainProps> = ({userEmail, isAuthenticated,setScores,
                     :null }
                     <div className="timer text-center">
                         {startCountDown !== -1 ? <h3 className="text-danger" >Starts in: {startCountDown}</h3>: null}
-                        {status === "start"|| status === "post-game" ? <h3>{countDown}</h3>: null}
+                        {status === "start"|| status === "post-game" ? <h3 className="mt-3">Time Remaining: <span style={{color:"red"}}>{countDown}</span></h3>: null}
                     </div>
                     {status === "start" || status === "start-timer" ? <Content words={words} contentStyle={""} currentCharIndex={currentCharIndex} currentWordIndex={currentWordIndex}/>
                     : 
                     status === "post-game"? <Content words={words} currentCharIndex={currentCharIndex} contentStyle={"#a3a3a3"} currentWordIndex={currentWordIndex}/>
                     : null}
 
-                    {status === "waiting" ? null :<input className="w-100" value={currentInput} onChange={(e) => {setCurrentInput(e.target.value)}} onKeyDown={(e) => handleKeyDown(e)} disabled={status !== "start"} ref={textInput}></input>}
+                    {status === "waiting" || status === "post-game" ? null :
+                    <div className="mt-3 mx-auto w-50">
+                        <input  className="w-100 mx-auto" value={currentInput} onChange={(e) => {setCurrentInput(e.target.value)}} onKeyDown={(e) => handleKeyDown(e)} disabled={status !== "start"} ref={textInput}></input>
+                    </div>
+                    }
                     <div className="text-center mt-5">
                         {status === "waiting" ?<h3>Click the button to start a typing test</h3> : null}
                         {status === "start" || status === "start-timer" ? null : <MDBBtn onClick={start}>Start</MDBBtn>}

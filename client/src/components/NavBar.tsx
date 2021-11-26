@@ -52,7 +52,6 @@ export const NavBar: React.FC<NavBarProps> = ({isAuthenticated, user, average}) 
                         </div>
                         
                     </MDBNavbarItem>
-                            
                         : 
                     null}
                     {/* If the user is undefined, have the login button pushed to the right */}

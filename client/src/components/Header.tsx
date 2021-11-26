@@ -1,8 +1,6 @@
 import React, {useState,useEffect} from 'react'
 import { NavBar } from './NavBar'
 
-
-
 interface HeaderProps {
     isAuthenticated: Boolean,
     user: any,
@@ -15,7 +13,6 @@ export const Header: React.FC<HeaderProps> = ({user,isAuthenticated, scores}) =>
         useEffect(() => {
             if (scores !== undefined){
                 setAverage(scores?.reduce((partial_sum, a) => partial_sum + a, 0) / scores.length)
-                
             }
         }, [scores])
         return (
