@@ -2,6 +2,7 @@
 
 ![kekrazy](https://user-images.githubusercontent.com/71105258/143620299-97543d92-0efc-4676-9524-8e79118c7a1b.gif)
 
+### Live Site: https://kekrazy.jaruliah.me/
 
 ## Description
 
@@ -15,6 +16,7 @@ This project is a typing speed test. Outputs phrases onto the screen with a time
 - Express
 - MongoDB
 - Bootstrap
+### Hosted on NGINX VPS
 
 ## Getting Started
 
