@@ -1,4 +1,5 @@
-# Typing Test
+# Typing Test![Screen Recording 2021-11-26 at 11 14 57 AM_1](https://user-images.githubusercontent.com/71105258/143619563-316a01de-a3a1-4f4d-abbf-88ab215e9ac9.gif)
+
 
 ## Description
 
