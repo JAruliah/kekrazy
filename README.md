@@ -16,7 +16,7 @@ This project is a typing speed test. Outputs phrases onto the screen with a time
 - Express
 - MongoDB
 - Bootstrap
-### Hosted on NGINX VPS
+## Hosted on NGINX VPS
 
 ## Getting Started
 
