@@ -13,7 +13,6 @@ function App() {
   useEffect(() => {
     if (isAuthenticated){
       if (user !== undefined){
-
         fetch(`${process.env.REACT_APP_BASE_URL}`,{
           method:"POST",
           headers:{
@@ -26,7 +25,6 @@ function App() {
           setScores(data[0].scores)
         })
         .catch(err => console.log(err))
-
       }
     }
   }, [isAuthenticated, user])
@@ -35,8 +33,8 @@ function App() {
     <div className="container">
       <Router>
         <Routes>
-          <Route path= '/' element={<Main scores={scores} user={user} setScores={setScores} isAuthenticated={isAuthenticated} userEmail={user?.email}/>}/> 
-          <Route path='/scoreboard' element={<ScoreBoard user={user} isAuthenticated={isAuthenticated} scores={scores}/>} />
+          <Route path= '/' element={<Main scores={scores} user={user} setScores={setScores} isAuthenticated={isAuthenticated} userEmail={user?.email} />}/> 
+          <Route path='/scoreboard' element={<ScoreBoard user={user} isAuthenticated={isAuthenticated} scores={scores} />} />
           <Route path="/*" element={<NotFound/>} />
         </Routes>
       </Router>

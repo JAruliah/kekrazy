@@ -11,7 +11,6 @@ const User = require('./model/User')
 app.use(express.json())
 
 //ROUTES
-
 // get the scores for the user, if user does not exist add to database
 app.post('/', async(req:any, res:any) => {
     try{

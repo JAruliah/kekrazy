@@ -16,7 +16,7 @@ interface User{
 }
 
 export const ScoreBoard: React.FC<ScoreBoardProps> = ({user, isAuthenticated, scores}) => {
-    const [allUsers, setAllUsers] = useState<User[]>()
+    const [allUsers, setAllUsers] = useState<User[]|null>(null)
     const [scoreBoard, setScoreBoard] = useState<{userName:string,average:number, accuracy:number, games:number}[]>([])
 
         // on mount and every time scores changes update state and set new scores
@@ -42,28 +42,27 @@ export const ScoreBoard: React.FC<ScoreBoardProps> = ({user, isAuthenticated, sc
                     accuracyAverage = accuracySum / user.accuracy.length
                     return userScores.push({userName:user.userName, average:average, accuracy:accuracyAverage, games:user.scores.length})  
                 })
-
+        
                 userScores.sort((a, b) => { 
                     return b.average -  a.average;
                 })
-
+        
                 setScoreBoard(userScores)
             } //End of function
+            if (isMounted && scoreBoard.length === 0){
+                fetch(`${process.env.REACT_APP_BASE_URL}scores`)
+                .then(res => res.json())
+                .then(data => {
+                    setAllUsers(data)
+                    getAverageWPM()
+                })
+                .catch(err => {console.log(err)})
+            }
 
-                if (isMounted){
-                    fetch(`${process.env.REACT_APP_BASE_URL}scores`)
-                    .then(res => res.json())
-                    .then(data => {
-                        setAllUsers(data)
-                        getAverageWPM()
-                    })
-                    .catch(err => {console.log(err)})
-                }
-
-                return () => { isMounted = false };
+            return () => { isMounted = false };
 
 
-            }, [scores, allUsers])
+            },[scores, allUsers, scoreBoard.length])
 
     return (
         <main>
