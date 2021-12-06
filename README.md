@@ -1,4 +1,4 @@
-# Typing Test
+# KeKrazy
 
 ![kekrazy](https://user-images.githubusercontent.com/71105258/143620299-97543d92-0efc-4676-9524-8e79118c7a1b.gif)
 
